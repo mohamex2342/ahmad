@@ -148,7 +148,7 @@ faqItems.forEach(item => {
 });
 
 // ===================================
-// Contact Form Handling
+// WhatsApp integration
 // ===================================
 const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('formMessage');
@@ -156,48 +156,36 @@ const formMessage = document.getElementById('formMessage');
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    // Get form data
-    const formData = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        subject: document.getElementById('subject').value,
-        message: document.getElementById('message').value
-    };
+    // 1. Validate form data first
+    if (!validateForm()) return;
+
+    // 2. Get values from fields
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    // 3. Prepare WhatsApp link
+    const whatsappNumber = "201202771983";
+    const text = `*New Contact Request from the website*%0A%0A` +
+                 `*Name:* ${encodeURIComponent(name)}%0A` +
+                 `*Phone:* ${encodeURIComponent(phone)}%0A` +
+                 `*Subject:* ${encodeURIComponent(subject)}%0A` +
+                 `*Message:* ${encodeURIComponent(message)}`;
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${text}`;
+
+    // 4. Show message to the user and clear the form
+    formMessage.style.display = 'block';
+    formMessage.className = 'form-message success';
+    formMessage.textContent = 'Redirecting to WhatsApp to send your message...';
     
-    // Simulate form submission (In production, send to backend)
+    // 5. Open WhatsApp in a new window after one second
     setTimeout(() => {
-        // Show success message
-        formMessage.className = 'form-message success';
-        formMessage.textContent = 'تم إرسال رسالتك بنجاح! سنتواصل معك في أقرب وقت ممكن.';
-        
-        // Reset form
+        window.open(whatsappUrl, '_blank');
         contactForm.reset();
-        
-        // Hide message after 5 seconds
-        setTimeout(() => {
-            formMessage.style.display = 'none';
-        }, 5000);
+        formMessage.style.display = 'none';
     }, 1000);
-    
-    // In production, you would send the data to a server:
-    // fetch('/api/contact', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData)
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //     formMessage.className = 'form-message success';
-    //     formMessage.textContent = 'تم إرسال رسالتك بنجاح!';
-    //     contactForm.reset();
-    // })
-    // .catch(error => {
-    //     formMessage.className = 'form-message error';
-    //     formMessage.textContent = 'حدث خطأ. يرجى المحاولة مرة أخرى.';
-    // });
 });
 
 // Form validation
@@ -209,7 +197,7 @@ const validateForm = () => {
     
     if (!name || !phone || !subject || !message) {
         formMessage.className = 'form-message error';
-        formMessage.textContent = 'يرجى ملء جميع الحقول المطلوبة.';
+        formMessage.textContent = 'Please fill in all required fields.';
         return false;
     }
     
@@ -300,7 +288,6 @@ const images = document.querySelectorAll('img');
 images.forEach(img => {
     img.addEventListener('contextmenu', (e) => {
         // e.preventDefault(); // Uncomment to disable right-click
-        // You can show a custom message if needed
     });
 });
 
@@ -310,7 +297,6 @@ images.forEach(img => {
 const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
 phoneLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        // Track phone click analytics if needed
         console.log('Phone number clicked');
     });
 });
@@ -321,7 +307,6 @@ phoneLinks.forEach(link => {
 const whatsappLinks = document.querySelectorAll('a[href*="whatsapp"]');
 whatsappLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        // Track WhatsApp click analytics if needed
         console.log('WhatsApp link clicked');
     });
 });
