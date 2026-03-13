@@ -167,11 +167,11 @@ contactForm.addEventListener('submit', (e) => {
 
     // 3. Prepare WhatsApp link
     const whatsappNumber = "201202771983";
-    const text = `*طلب اتصال جديد*%0A%0A` +
-                 `*Name:* ${encodeURIComponent(الاسم)}%0A` +
-                 `*Phone:* ${encodeURIComponent(الهاتف)}%0A` +
-                 `*Subject:* ${encodeURIComponent(موضوع)}%0A` +
-                 `*Message:* ${encodeURIComponent(الرساله )}`;
+    const text = `*د*%A%0A` +
+                 `*Name:* ${encodeURIComponent(name)}%0A` +
+                 `*Phone:* ${encodeURIComponent(phone)}%0A` +
+                 `*Subject:* ${encodeURIComponent(subject)}%0A` +
+                 `*Message:* ${encodeURIComponent(message )}`;
 
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${text}`;
 
