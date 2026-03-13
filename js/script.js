@@ -167,7 +167,7 @@ contactForm.addEventListener('submit', (e) => {
 
     // 3. Prepare WhatsApp link
     const whatsappNumber = "201202771983";
-    const text = `*New Contact Request from the website*%0A%0A` +
+    const text = `*السلام عليكم ورحمة الله وبركاته *%0A%0A` +
                  `*الاسم:* ${encodeURIComponent(name)}%0A` +
                  `*الرقم:* ${encodeURIComponent(phone)}%0A` +
                  `*الموضوع:* ${encodeURIComponent(subject)}%0A` +
