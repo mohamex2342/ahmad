@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الفيديوهات المحلي</title>
+    <style>
+        /* تنسيقات عامة */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 { text-align: center; margin-bottom: 30px; }
+
+        /* شبكة الفيديوهات */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-item {
+            position: relative;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            background: #000;
+        }
+
+        .video-item:hover {
+            transform: scale(1.05);
+        }
+
+        .video-item video {
+            width: 100%;
+            display: block;
+        }
+
+        /* نافذة العرض بكامل الشاشة (Modal) */
+        .video-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-modal video {
+            width: 90%;
+            max-height: 80%;
+            border-radius: 5px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>معرض فيديوهاتي</h1>
+
+    <div class="gallery-container">
+        <div class="video-item" onclick="openVideo('videos/video1.mp4')">
+            <video src="videos/video1.mp4" muted></video>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video2.mp4')">
+            <video src="videos/video2.mp4" muted></video>
+        </div>
+
+        </div>
+
+    <div id="videoModal" class="video-modal">
+        <span class="close-btn" onclick="closeVideo()">&times;</span>
+        <video id="fullVideo" controls autoplay></video>
+    </div>
+
+    <script>
+        const modal = document.getElementById("videoModal");
+        const fullVideo = document.getElementById("fullVideo");
+
+        function openVideo(videoSrc) {
+            modal.style.display = "flex";
+            fullVideo.src = videoSrc;
+            fullVideo.play();
+        }
+
+        function closeVideo() {
+            modal.style.display = "none";
+            fullVideo.pause();
+            fullVideo.src = ""; // تفريغ المصدر لإيقاف التحميل
+        }
+
+        // إغلاق عند الضغط خارج الفيديو
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeVideo();
+            }
+        }
+    </script>
+</body>
+</html>
