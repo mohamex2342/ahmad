@@ -51,10 +51,9 @@
 
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* حاوية الشبكة - الواحدة فقط */
         .gallery-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             max-width: 1400px;
             margin: 0 auto;
@@ -100,26 +99,28 @@
             opacity: 0; transition: 0.3s;
         }
 
-        .play-overlay::after { content: '▶'; color: white; font-size: 24px; }
+        .play-overlay::after { content: '▶'; color: white; font-size: 24px; margin-right: -4px; }
 
         .video-item:hover .play-overlay { opacity: 1; }
 
         .video-info {
             padding: 15px;
             background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .video-title { font-size: 1rem; margin-bottom: 5px; }
+        .video-title { font-size: 0.95rem; font-weight: 600; }
 
         .video-duration {
             font-size: 0.8rem;
             color: #4facfe;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.4);
             padding: 2px 8px;
-            border-radius: 10px;
+            border-radius: 8px;
         }
 
-        /* Modal Styles */
         .video-modal {
             display: none;
             position: fixed;
@@ -134,12 +135,14 @@
 
         .modal-content { width: 90%; max-width: 1000px; position: relative; }
 
-        .modal-content video { width: 100%; border-radius: 10px; box-shadow: 0 0 30px #000; }
+        .modal-content video { width: 100%; border-radius: 15px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
 
         .close-btn {
-            position: absolute; top: -40px; right: 0;
-            color: white; font-size: 30px; cursor: pointer;
+            position: absolute; top: -50px; right: 0;
+            color: white; font-size: 35px; cursor: pointer;
+            transition: 0.3s;
         }
+        .close-btn:hover { color: #ff4b2b; }
 
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
@@ -153,29 +156,130 @@
 
     <div class="gallery-container">
         
-        <div class="video-item" onclick="openVideo('videos/video1.mp4', 'فيديو 1')">
+        <div class="video-item" onclick="openVideo('videos/video1.mp4')">
             <div class="video-wrapper">
                 <video src="videos/video1.mp4" muted preload="metadata"></video>
                 <div class="play-overlay"></div>
             </div>
             <div class="video-info">
-                <div class="video-title">عنوان الفيديو الأول</div>
-                <span class="video-duration">00:00</span>
+                <div class="video-title">فيديو 1</div>
+                <span class="video-duration">--:--</span>
             </div>
         </div>
 
-        <div class="video-item" onclick="openVideo('videos/video2.mp4', 'فيديو 2')">
+        <div class="video-item" onclick="openVideo('videos/video2.mp4')">
             <div class="video-wrapper">
                 <video src="videos/video2.mp4" muted preload="metadata"></video>
                 <div class="play-overlay"></div>
             </div>
             <div class="video-info">
-                <div class="video-title">عنوان الفيديو الثاني</div>
-                <span class="video-duration">00:00</span>
+                <div class="video-title">فيديو 2</div>
+                <span class="video-duration">--:--</span>
             </div>
         </div>
 
-        </div> <div id="videoModal" class="video-modal">
+        <div class="video-item" onclick="openVideo('videos/video3.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video3.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 3</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video4.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video4.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 4</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video5.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video5.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 5</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video6.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video6.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 6</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video7.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video7.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 7</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video8.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video8.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 8</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video9.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video9.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 9</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video10.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video10.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 10</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+        <div class="video-item" onclick="openVideo('videos/video11.mp4')">
+            <div class="video-wrapper">
+                <video src="videos/video11.mp4" muted preload="metadata"></video>
+                <div class="play-overlay"></div>
+            </div>
+            <div class="video-info">
+                <div class="video-title">فيديو 11</div>
+                <span class="video-duration">--:--</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="videoModal" class="video-modal">
         <div class="modal-content">
             <div class="close-btn" onclick="closeVideo()">×</div>
             <video id="fullVideo" controls></video>
@@ -186,7 +290,7 @@
         const modal = document.getElementById("videoModal");
         const fullVideo = document.getElementById("fullVideo");
 
-        // تحديث مدة الفيديو ومعاينته
+        // جلب مدد الفيديوهات ومعاينة عند المرور
         document.querySelectorAll('.video-item').forEach(item => {
             const video = item.querySelector('video');
             const durationSpan = item.querySelector('.video-duration');
