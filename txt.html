@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طرق العلاج </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: radial-gradient(circle at top right, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: screen;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d2ff;
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
+        }
+        /* تصميم النافذة المنبثقة */
+        #post-modal {
+            display: none;
+            background: rgba(10, 11, 30, 0.85);
+            backdrop-filter: blur(15px);
+        }
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+        .neon-text { text-shadow: 0 0 15px #00d2ff; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <header class="text-center mb-16">
+        <h1 class="text-5xl font-extrabold neon-text mb-4">احمد البنا </h1>
+        <p class="text-gray-400">طرق العلاج</p>
+    </header>
+    
+    <div id="posts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="col-span-full text-center py-10 text-gray-500 text-xl italic">جاري التحميل </div>
+    </div>
+
+    <div id="post-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content w-full max-w-2xl rounded-3xl overflow-hidden fade-in">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h2 id="modal-title" class="text-3xl font-bold text-cyan-400 leading-tight"></h2>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl p-2">&times;</button>
+                </div>
+                <div id="modal-date" class="text-sm text-gray-500 mb-6 flex items-center">
+                    <span class="ml-2">📅</span> <span id="date-text"></span>
+                </div>
+                <div class="h-px bg-gradient-to-r from-cyan-500/50 to-transparent mb-6"></div>
+                <div id="modal-body" class="text-gray-200 leading-relaxed text-lg overflow-y-auto max-h-[60vh] pr-2">
+                    </div>
+            </div>
+            <div class="p-4 bg-slate-900/50 text-center">
+                <button onclick="closeModal()" class="px-8 py-2 bg-cyan-600/20 border border-cyan-500/50 rounded-full hover:bg-cyan-600 hover:text-white transition">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // إعدادات Firebase الخاصة بمشروعك
+        const firebaseConfig = {
+            apiKey: "AIzaSyCPMD1_8oX5WcR1ib2BTui9a05yE3ko27I",
+            databaseURL: "https://m-r-chat-hamo-default-rtdb.firebaseio.com",
+            projectId: "m-r-chat-hamo"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const postsRef = ref(db, 'posts');
+
+        // جلب البيانات وعرضها
+        onValue(postsRef, (snapshot) => {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = "";
+            const data = snapshot.val();
+            
+            if(!data) {
+                container.innerHTML = '<div class="col-span-full text-center text-gray-500">لا يوجد محتوى متاح حالياً.</div>';
+                return;
+            }
+
+            // ترتيب المنشورات من الأحدث للأقدم
+            Object.keys(data).reverse().forEach(id => {
+                const post = data[id];
+                const card = document.createElement('div');
+                card.className = "glass-card p-8 rounded-3xl cursor-pointer";
+                card.innerHTML = `
+                    <div class="mb-4 inline-block px-3 py-1 bg-cyan-500/10 text-cyan-400 text-xs rounded-full border border-cyan-500/20">جديد</div>
+                    <h2 class="text-2xl font-bold mb-3 text-white truncate">${post.title}</h2>
+                    <p class="text-gray-400 text-sm line-clamp-3 leading-relaxed mb-4">${post.summary || 'لا يوجد وصف متاح لهذا المحتوى...'}</p>
+                    <div class="flex items-center text-cyan-500 text-sm font-semibold">
+                        اقرأ المزيد <span class="mr-2">←</span>
+                    </div>
+                `;
+                card.onclick = () => openModal(post);
+                container.appendChild(card);
+            });
+        });
+
+        // وظائف النافذة المنبثقة
+        window.openModal = function(post) {
+            document.getElementById('modal-title').innerText = post.title;
+            document.getElementById('modal-body').innerText = post.content;
+            document.getElementById('date-text').innerText = post.timestamp ? new Date(post.timestamp).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : "تاريخ غير معروف";
+            document.getElementById('post-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // منع التمرير في الخلفية
+        };
+
+        window.closeModal = function() {
+            document.getElementById('post-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        // إغلاق النافذة عند الضغط خارج المحتوى
+        window.onclick = function(event) {
+            const modal = document.getElementById('post-modal');
+            if (event.target == modal) closeModal();
+        };
+    </script>
+</body>
+</html>
